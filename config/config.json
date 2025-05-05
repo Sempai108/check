@@ -1,0 +1,15 @@
+{
+  "count": 0,
+
+  "images": {
+    "result": "/home/promrobo/test/Images/result.jpg",
+    "w": "/home/promrobo/test/Images/w.png",
+    "w1": "/home/promrobo/test/Images/w1.png",
+    "eye": "/home/promrobo/test/Images/eye.bmp",
+    "eye_converted": "/home/promrobo/test/Images/eye_converted.bmp"
+  },
+  "pins": {
+    "SERVO_PIN1": 18,
+    "SERVO_PIN2": 26
+  }
+}
