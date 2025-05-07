@@ -1,3 +1,5 @@
+import time
+
 from Modules.camera_utils import initialize_camera, capture_image
 from Modules.gpio_utils import set_angle, cleanup_gpio
 from Modules.image_processing import compute_difference, is_pixel_black_or_white
@@ -29,6 +31,7 @@ def destroy_window():
 
 
 def main():
+    time.sleep(5)
     camera, display = initialize_camera(), initialize_display()
     pwm1, pwm2 = config.SERVO_PIN1, config.SERVO_PIN2
     logger.info("main запущен")
