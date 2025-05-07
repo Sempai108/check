@@ -1,34 +1,25 @@
-import cv2  # Импортируем библиотеку OpenCV для работы с видео и изображениями
-from PIL import Image, ImageChops  # Импортируем классы Image и ImageChops из библиотеки Pillow для работы с изображениями
-import RPi.GPIO as GPIO  # Импортируем библиотеку для работы с GPIO
-import time  # Импортируем библиотеку для работы с временем
+import RPi.GPIO as GPIO
+import time
 
-camera = cv2.VideoCapture(0)  # Инициализируем захват видео с камеры (номер 0)
-count = 0  # Инициализируем счетчик пикселей
-
-# Настройка GPIO для сервомотора
+# Установка пинов
+motor_pin = 18
 GPIO.setmode(GPIO.BCM)
-servo_pin1 = 18
-GPIO.setup(servo_pin1, GPIO.OUT)
+GPIO.setup(motor_pin, GPIO.OUT)
 
-servo_pin2 = 26
-GPIO.setup(servo_pin2, GPIO.OUT)
+# Создание объекта PWM
+pwm = GPIO.PWM(motor_pin, 50)  # Частота 50 Гц
+pwm.start(0)
 
-# Создаем объект PWM для сервомотора
-pwm1 = GPIO.PWM(servo_pin1, 50)  # Частота 50 Гц
-pwm1.start(0)
-
-pwm2 = GPIO.PWM(servo_pin2, 50)  # Частота 50 Гц
-pwm2.start(0)
-
-def set_angle1(angle1):
-    duty1 = angle1 / 18 + 2
-    pwm1.ChangeDutyCycle(duty1)
+def set_angle(angle):
+    duty_cycle = angle / 18 + 2
+    pwm.ChangeDutyCycle(duty_cycle)
     time.sleep(1)
-    pwm1.ChangeDutyCycle(0)
 
-def set_angle2(angle2):
-    duty2 = angle2 / 18 + 2
-    pwm2.ChangeDutyCycle(duty2)
-    time.sleep(1)
-    pwm
+try:
+    while True:
+        for angle in [90, 45, 90, 135]: # выставляется угол
+            set_angle(angle)
+            time.sleep(2)  # Задержка перед следующим углом
+except KeyboardInterrupt:
+    pwm.stop()
+    GPIO.cleanup()
