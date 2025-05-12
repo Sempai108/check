@@ -1,5 +1,3 @@
-import time
-
 from Modules.camera_utils import initialize_camera, capture_image
 from Modules.gpio_utils import set_angle, cleanup_gpio
 from Modules.image_processing import compute_difference, is_pixel_black_or_white
@@ -9,6 +7,7 @@ from PIL import Image
 from classes.logger import Logger
 from config import config
 import cv2
+import time
 
 logger = Logger().logger
 
@@ -36,11 +35,12 @@ def main():
     pwm1, pwm2 = config.SERVO_PIN1, config.SERVO_PIN2
     logger.info("main запущен")
     try:
-        image_path, save_path = config.EYE, config.EYE_CONVERTED
-        convert_to_1bit(image_path, save_path)
-        display_image(display, save_path)
-        capture_image(camera, config.W_IMG)  # Сохранение базового изображения
         while True:
+            image_path, save_path = config.EYE, config.EYE_CONVERTED
+            convert_to_1bit(image_path, save_path)
+            display_image(display, save_path)
+            capture_image(camera, config.W_IMG)  # Сохранение базового изображения
+
             capture_image(camera, config.W1_IMG)
             compute_difference(config.W_IMG, config.W1_IMG, config.RESULT_IMG)
 
